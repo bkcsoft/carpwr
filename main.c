@@ -27,11 +27,11 @@
 
 void setup() {
 	// Setup pins...
-  DDRB |= (1 << PIN_PI_OUT) | (0 << PIN_PI_IN) | (0 << PIN_ACC) | (1 << PIN_SW) | (0 << PIN_PWR);
+	DDRB |= (1 << PIN_PI_OUT) | (0 << PIN_PI_IN) | (0 << PIN_ACC) | (1 << PIN_SW) | (0 << PIN_PWR);
 
-  // initially set the pins to "low"
-  PI_OFF(PORTB);             // RPi dead
-  PS_OFF(PORTB);             // Power-Switch off
+	// initially set the pins to "low"
+	PI_OFF(PORTB);             // RPi dead
+	PS_OFF(PORTB);             // Power-Switch off
 
 	// Enable Interrupts
 	GIMSK = 1<<PCIE;               // Enable Pin Change Interrupt
@@ -104,10 +104,10 @@ ISR(SIG_PIN_CHANGE) {
 int main(void) {
 	setup();
 
-  for(;;){
+	for(;;){
 		sei();
 		sleep_cpu();
-  }
+	}
 
-  return 0;   /* never reached */
+	return 0;   /* never reached */
 }
