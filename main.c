@@ -55,8 +55,6 @@ ISR(SIG_WATCHDOG_TIMEOUT) {
 	// Turn off RPi and Power-Supply
 	PI_OFF(PORTB);
 	PS_OFF(PORTB);
-
-	sei();
 }
 
 ISR(SIG_PIN_CHANGE) {
