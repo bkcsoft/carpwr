@@ -7,7 +7,7 @@
 #define PIN_ACC    PB3 // Reading ACC-status (High == on, Low == off)
 #define PIN_PI_IN  PB4 // RPi says goodnight (High == on, Low == off)
 #define PIN_PI_OUT PB5 // Tell RPi goodnight (High == dead, Low == wake)
-#define PIN_SW     PB2 // Power-Switch (High == on, Low == off) (IIRC...)
+#define PIN_SW     PB2 // Power-Supply (High == on, Low == off) (IIRC...)
 #define PIN_PWR    PB1 // Power-button
 
 #define DIGIWRITE_H(prt, pn) prt |= (1<<pn)
@@ -31,7 +31,7 @@ void setup() {
 
 	// initially set the pins to "low"
 	PI_OFF(PORTB);             // RPi dead
-	PS_OFF(PORTB);             // Power-Switch off
+	PS_OFF(PORTB);             // Power-Supply off
 
 	// Enable Interrupts
 	GIMSK = 1<<PCIE;               // Enable Pin Change Interrupt
@@ -85,8 +85,13 @@ ISR(SIG_PIN_CHANGE) {
 
 		// Pressing the Power-button!
 		if (READ_PWR(new_state) == 1) {
-			WDTCR = (1<<WDIE) | (1<<WDE);  // Enable Watchdog Timer Interrupt
-			wdt_enable(WDTO_4S);           // Enable WDT set to 4 seconds
+			if(READ_PI(PORTB) == 1) { // RPi is on...
+				WDTCR = (1<<WDIE) | (1<<WDE);  // Enable Watchdog Timer Interrupt
+				wdt_enable(WDTO_4S);           // Enable WDT set to 4 seconds
+			} else { // Turn it on :D
+				PI_ON(PORTB);          // Tell RPi it's okey to stay on
+				PS_ON(PORTB);          // Turn on Power-Supply
+			}
 		}
 		// Released the Power-button!
 		if (READ_PWR(new_state) == 0 && pwr_btn_dwn == 1) {
