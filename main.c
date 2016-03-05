@@ -63,11 +63,12 @@ ISR(SIG_PIN_CHANGE) {
 	const uint8_t state_mask = (1 << PIN_PI_IN) | (1 << PIN_ACC) | (1 << PIN_PWR);
 
 	static uint8_t old_state = 0;
-	static uint8_t pwr_btn_dwn = 0;
+
+	uint8_t masked_state = (PORTB & state_mask);
 
 	// Check mask and de-bounce
-	if (PORTB & state_mask && !(PORTB & old_state)) {
-		const uint8_t new_state = PORTB ^ old_state;
+	if (masked_state && (masked_state ^ old_state)) {
+		const uint8_t new_state = masked_state ^ old_state;
 		// ACC turned off
 		if (READ_ACC(new_state) == 0) {
 			PI_OFF(PORTB);             // Tell the RPi that it should turn off...
@@ -94,7 +95,7 @@ ISR(SIG_PIN_CHANGE) {
 			}
 		}
 		// Released the Power-button!
-		if (READ_PWR(new_state) == 0 && pwr_btn_dwn == 1) {
+		if (READ_PWR(new_state) == 0) {
 			wdt_disable();          // Disable the Watchdog Timer Interrupt
 			PI_OFF(PORTB);          // Power-Off normally
 		}
