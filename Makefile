@@ -31,6 +31,5 @@ upload:
 	ssh pi@192.168.1.109 sudo avrdude -v -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -U flash:w:$(FILENAME).hex:i
 
 clean:
-	-[ -f obj/$(FILENAME).o ] && rm -f obj/$(FILENAME).o
-	-[ -f bin/$(FILENAME).elf ] && rm -f bin/$(FILENAME).elf
-	-[ -f bin/$(FILENAME).hex ] && rm -f bin/$(FILENAME).hex
+	-[ -d obj/ ] && rm -rf obj/
+	-[ -d bin/ ] && rm -rf bin/
