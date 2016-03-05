@@ -8,23 +8,29 @@ COMPILE    = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
 default: build
 
-$(FILENAME).o: $(FILENAME).c
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -c $(FILENAME).c -o $(FILENAME).o
+obj:
+	mkdir obj/
 
-$(FILENAME).elf: $(FILENAME).o
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -o $(FILENAME).elf $(FILENAME).o
+bin:
+	mkdir bin/
 
-$(FILENAME).hex: $(FILENAME).elf
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-objcopy -j .text -j .data -O ihex $(FILENAME).elf $(FILENAME).hex
+obj/$(FILENAME).o: $(FILENAME).c obj
+	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -c $(FILENAME).c -o obj/$(FILENAME).o
 
-build: $(FILENAME).hex
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-size --format=avr --mcu=$(DEVICE) $(FILENAME).elf
+bin/$(FILENAME).elf: obj/$(FILENAME).o bin
+	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -o bin/$(FILENAME).elf obj/$(FILENAME).o
+
+bin/$(FILENAME).hex: bin/$(FILENAME).elf bin
+	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-objcopy -j .text -j .data -O ihex bin/$(FILENAME).elf bin/$(FILENAME).hex
+
+build: bin/$(FILENAME).hex bin
+	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-size --format=avr --mcu=$(DEVICE) bin/$(FILENAME).elf
 
 upload:
-	scp $(FILENAME).hex pi@192.168.1.109:$(FILENAME).hex
+	scp bin/$(FILENAME).hex pi@192.168.1.109:$(FILENAME).hex
 	ssh pi@192.168.1.109 sudo avrdude -v -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -U flash:w:$(FILENAME).hex:i
 
 clean:
-	-[ -f $(FILENAME).o ] && rm -f $(FILENAME).o
-	-[ -f $(FILENAME).elf ] && rm -f $(FILENAME).elf
-	-[ -f $(FILENAME).hex ] && rm -f $(FILENAME).hex
+	-[ -f obj/$(FILENAME).o ] && rm -f obj/$(FILENAME).o
+	-[ -f bin/$(FILENAME).elf ] && rm -f bin/$(FILENAME).elf
+	-[ -f bin/$(FILENAME).hex ] && rm -f bin/$(FILENAME).hex
