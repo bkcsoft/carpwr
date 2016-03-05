@@ -1,6 +1,5 @@
 #include <avr/io.h>
 // F_CPU available from commandline
-#include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/wdt.h>
 #include <avr/sleep.h>
@@ -25,17 +24,6 @@
 #define PS_OFF(x) DIGIWRITE_L(x, PIN_SW)
 
 #define READ_PWR(x) DIGIREAD(x, PIN_PWR)
-
-void long_delay_ms(uint16_t ms) {
-  for(ms /= 10; ms>0; ms--) _delay_ms(10);
-}
-
-void long_delay_s(uint16_t s) {
-	uint16_t i;
-	for( i = 0; i < s; i++ ) {
-		long_delay_ms(1000);
-	}
-}
 
 void setup() {
 	// Setup pins...
