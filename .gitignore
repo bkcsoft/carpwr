@@ -1,3 +1,5 @@
+obj/
+bin/
 obj/*.o
 bin/*.elf
 bin/*.hex
