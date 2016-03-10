@@ -14,13 +14,13 @@ obj:
 bin:
 	mkdir bin/
 
-obj/$(FILENAME).o: $(FILENAME).c obj
+obj/%.o: %.c obj
 	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -c $(FILENAME).c -o obj/$(FILENAME).o
 
-bin/$(FILENAME).elf: obj/$(FILENAME).o bin
+bin/%.elf: obj/%.o bin
 	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -o bin/$(FILENAME).elf obj/$(FILENAME).o
 
-bin/$(FILENAME).hex: bin/$(FILENAME).elf bin
+bin/%.hex: bin/%.elf bin
 	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-objcopy -j .text -j .data -O ihex bin/$(FILENAME).elf bin/$(FILENAME).hex
 
 build: bin/$(FILENAME).hex bin
