@@ -7,7 +7,7 @@
 #define PIN_ACC    PB3 // Reading ACC-status (High == on, Low == off)
 #define PIN_PI_IN  PB4 // RPi says goodnight (High == on, Low == off)
 #define PIN_PI_OUT PB5 // Tell RPi goodnight (High == dead, Low == wake)
-#define PIN_SW     PB2 // Power-Supply (High == on, Low == off) (IIRC...)
+#define PIN_SW     PB2 // Power-Supply (High == on, Low == off)
 #define PIN_PWR    PB1 // Power-button
 
 #define MASK_ACC    (1<<PIN_ACC)
