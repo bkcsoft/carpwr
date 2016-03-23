@@ -1,0 +1,94 @@
+Cmp-Mod V01 Created by PcbNew date = Fri 11 Mar 2016 06:25:13 AM CET
+
+BeginCmp
+TimeStamp = /56E0E56D/56E0E664;
+Reference = C1;
+ValeurCmp = 100µF;
+IdModule  = C1V8;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E0E56D/56E0E666;
+Reference = C2;
+ValeurCmp = 220µF;
+IdModule  = C1V8;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E22A60/56E22A79;
+Reference = IC1;
+ValeurCmp = ATTINY85-P;
+IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E23D1E;
+Reference = K1;
+ValeurCmp = CONN_3;
+IdModule  = PIN_ARRAY_3X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E0E56D/56E0E665;
+Reference = L1;
+ValeurCmp = 330µH;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E23DA2;
+Reference = P1;
+ValeurCmp = CONN_4;
+IdModule  = PIN_ARRAY_4x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E22A60/56E22BE9;
+Reference = Q1;
+ValeurCmp = BD139;
+IdModule  = TO92;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E0E56D/56E0E667;
+Reference = R1;
+ValeurCmp = 5k;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E0E56D/56E0E668;
+Reference = R2;
+ValeurCmp = 3k;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E22A60/56E22C30;
+Reference = R3;
+ValeurCmp = R;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E22A60/56E22AD8;
+Reference = R4;
+ValeurCmp = 2k;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E22A60/56E22B06;
+Reference = R5;
+ValeurCmp = 10k;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /56E0E56D/56E0E663;
+Reference = U1;
+ValeurCmp = LM2575;
+IdModule  = PIN_ARRAY_5x1;
+EndCmp
+
+EndListe

@@ -1,0 +1,34 @@
+eeschema (2013-may-18)-stable  >> Creation date: Fri 11 Mar 2016 06:17:31 AM CET
+#Cmp ( order = Reference )
+| C1         100µF      
+| C2         220µF      
+| IC1        ATTINY85-P  
+| K1         CONN_3      
+| L1         330µH      
+| P1         CONN_4      
+| Q1         BD139       
+| R1         5k          
+| R2         3k          
+| R3         R           
+| R4         2k          
+| R5         10k         
+| U1         LM2575      
+#End Cmp
+
+#Cmp ( order = Value )
+| 100µF       C1        
+| 220µF       C2        
+| ATTINY85-P   IC1       
+| CONN_3       K1        
+| 330µH       L1        
+| CONN_4       P1        
+| BD139        Q1        
+| 2k           R4        
+| 3k           R2        
+| 5k           R1        
+| 10k          R5        
+| R            R3        
+| LM2575       U1        
+#End Cmp
+
+#End List
