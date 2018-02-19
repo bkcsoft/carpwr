@@ -5,6 +5,7 @@ PORT       = gpio
 BAUD       = 19200
 FILENAME   = main
 COMPILE    = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
+AVR_DOCKER_IMAGE = mkdryden/avr-toolchain
 
 default: build
 
@@ -15,16 +16,16 @@ bin:
 	mkdir bin/
 
 obj/%.o: %.c obj
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -c $(FILENAME).c -o obj/$(FILENAME).o
+	docker run --rm -t -v $(PWD):/tmp $(AVR_DOCKER_IMAGE) $(COMPILE) -c $(FILENAME).c -o obj/$(FILENAME).o
 
 bin/%.elf: obj/%.o bin
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain $(COMPILE) -o bin/$(FILENAME).elf obj/$(FILENAME).o
+	docker run --rm -t -v $(PWD):/tmp $(AVR_DOCKER_IMAGE) $(COMPILE) -o bin/$(FILENAME).elf obj/$(FILENAME).o
 
 bin/%.hex: bin/%.elf bin
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-objcopy -j .text -j .data -O ihex bin/$(FILENAME).elf bin/$(FILENAME).hex
+	docker run --rm -t -v $(PWD):/tmp $(AVR_DOCKER_IMAGE) avr-objcopy -j .text -j .data -O ihex bin/$(FILENAME).elf bin/$(FILENAME).hex
 
 build: bin/$(FILENAME).hex bin
-	docker run --rm -t -v $(PWD):/tmp jcreekmore/avr-toolchain avr-size --format=avr --mcu=$(DEVICE) bin/$(FILENAME).elf
+	docker run --rm -t -v $(PWD):/tmp $(AVR_DOCKER_IMAGE) avr-size --format=avr --mcu=$(DEVICE) bin/$(FILENAME).elf
 
 upload:
 	scp bin/$(FILENAME).hex pi@192.168.1.109:$(FILENAME).hex
