@@ -5,7 +5,7 @@ stages:
 
 build:
   stage: build
-  scripts:
+  script:
     - make build
   cache:
     untracked: true
