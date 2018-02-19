@@ -1,0 +1,18 @@
+image: mkdryden/avr-toolchain
+
+stages:
+  - build
+
+build:
+  stage: build
+  scripts:
+    - make build
+  cache:
+    untracked: true
+    paths:
+      - obj/
+      - bin/
+  artifacts:
+    paths:
+      - bin/
+    expire_in: 1 week
